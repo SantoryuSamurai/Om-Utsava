@@ -25,6 +25,8 @@ function InstagramIcon() {
   return <svg className="instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle className="instagram-dot" cx="17.4" cy="6.6" r=".8" /></svg>;
 }
 
+const asset = (path) => `${process.env.NEXT_PUBLIC_BASE_PATH || ""}${path}`;
+
 export default function Home() {
   const [amount, setAmount] = useState("501");
   const [sent, setSent] = useState(false);
@@ -76,7 +78,7 @@ export default function Home() {
     <main>
       <section className="hero" id="home">
         <nav className="nav shell" aria-label="Main navigation">
-          <a className="brand brand-logo" href="#home" aria-label="Om Utsava home"><img src="/om-utsava-mark.png" alt="Om Utsava emblem" /><span className="brand-name">UTSAVA</span></a>
+          <a className="brand brand-logo" href="#home" aria-label="Om Utsava home"><img src={asset("/om-utsava-mark.png")} alt="Om Utsava emblem" /><span className="brand-name">UTSAVA</span></a>
           <div className="navlinks">
             <a href="#programme">Programme</a>
             <a href="#glimpse">Glimpses</a>
@@ -125,7 +127,7 @@ export default function Home() {
 
       <section className="gallery shell reveal" id="glimpse" aria-labelledby="gallery-title">
         <div className="gallery-heading"><div><p className="eyebrow">Glimpse of Om Utsava 2025</p><h2 id="gallery-title">Last year, <em>together in devotion.</em></h2></div><a className="text-link instagram-link" href="https://www.instagram.com/om_utsava/" target="_blank" rel="noreferrer" aria-label="Follow Om Utsava on Instagram"><InstagramIcon /><span>@om_utsava</span><Arrow /></a></div>
-        <div className="gallery-pinned"><div className="gallery-pinned-stage"><div className="gallery-swipe photo-swipe" aria-label="Om Utsava 2025 memories"><figure className="glimpse-card glimpse-group"><img src="/om-utsava-community-2025.jpeg" alt="Om Utsava volunteers gathered before Lord Ganesha" /><figcaption>Our community, united in celebration.</figcaption></figure><figure className="glimpse-card glimpse-ganesha"><img src="/om-utsava-ganesha-2025.jpeg" alt="Lord Ganesha adorned for Om Utsava" /><figcaption>With devotion, every detail is an offering.</figcaption></figure></div></div></div>
+        <div className="gallery-pinned"><div className="gallery-pinned-stage"><div className="gallery-swipe photo-swipe" aria-label="Om Utsava 2025 memories"><figure className="glimpse-card glimpse-group"><img src={asset("/om-utsava-community-2025.jpeg")} alt="Om Utsava volunteers gathered before Lord Ganesha" /><figcaption>Our community, united in celebration.</figcaption></figure><figure className="glimpse-card glimpse-ganesha"><img src={asset("/om-utsava-ganesha-2025.jpeg")} alt="Lord Ganesha adorned for Om Utsava" /><figcaption>With devotion, every detail is an offering.</figcaption></figure></div></div></div>
       </section>
 
       <section className="donate reveal" id="donate">
@@ -142,7 +144,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer><div className="shell footer-content"><a className="brand brand-logo footer-logo" href="#home" aria-label="Om Utsava home"><img src="/om-utsava-mark.png" alt="Om Utsava emblem" /><span className="brand-name">UTSAVA</span></a><p className="footer-copyright">© 2026 Om Utsava</p><a className="footer-instagram instagram-link" href="https://www.instagram.com/om_utsava/" target="_blank" rel="noreferrer" aria-label="Follow Om Utsava on Instagram"><InstagramIcon /><span>@om_utsava</span><Arrow /></a></div></footer>
+      <footer><div className="shell footer-content"><a className="brand brand-logo footer-logo" href="#home" aria-label="Om Utsava home"><img src={asset("/om-utsava-mark.png")} alt="Om Utsava emblem" /><span className="brand-name">UTSAVA</span></a><p className="footer-copyright">© 2026 Om Utsava</p><a className="footer-instagram instagram-link" href="https://www.instagram.com/om_utsava/" target="_blank" rel="noreferrer" aria-label="Follow Om Utsava on Instagram"><InstagramIcon /><span>@om_utsava</span><Arrow /></a></div></footer>
     </main>
   );
 }
