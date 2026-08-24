@@ -111,7 +111,7 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">6th year celebration · 14–19 September 2026</p>
             <h1>Celebrate<br /><em>Lord Ganesha.</em></h1>
-            <p className="intro">Join Om Utsava, Shanthi Nagar, Bangarpet, for six days of devotion, prayer, music, prasadam, and community during Ganesh Chaturthi 2026.</p>
+            <p className="intro">Join Om Utsava for six days of devotion, prayer, music, prasadam, and community as we celebrate Ganesh Chaturthi 2026.</p>
             <div className="hero-actions">
               <a className="button" href="#donate">Contribute to Utsava <Arrow /></a>
               <a className="text-link" href="#programme">View programme <span>↓</span></a>
