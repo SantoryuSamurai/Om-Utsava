@@ -29,7 +29,10 @@ const asset = (path) => `${process.env.NEXT_PUBLIC_BASE_PATH || ""}${path}`;
 
 export default function Home() {
   const [amount, setAmount] = useState("501");
-  const [sent, setSent] = useState(false);
+  const [donorName, setDonorName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [paymentMessage, setPaymentMessage] = useState("");
+  const [isStartingPayment, setIsStartingPayment] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
@@ -69,9 +72,26 @@ export default function Home() {
     return () => { observer.disconnect(); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (frame) window.cancelAnimationFrame(frame); };
   }, []);
 
-  function pledge(event) {
+  async function pledge(event) {
     event.preventDefault();
-    setSent(true);
+    if (isStartingPayment) return;
+    setIsStartingPayment(true);
+    setPaymentMessage("");
+    try {
+      const response = await fetch("/api/payments/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount, name: donorName, phone }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+      if (!window.Cashfree) throw new Error("Payment checkout is still loading. Please try again.");
+      const cashfree = window.Cashfree({ mode: result.environment });
+      cashfree.checkout({ paymentSessionId: result.paymentSessionId, redirectTarget: "_self" });
+    } catch (error) {
+      setPaymentMessage(error.message || "We could not start the payment. Please try again.");
+      setIsStartingPayment(false);
+    }
   }
 
   return (
@@ -137,9 +157,10 @@ export default function Home() {
             <label htmlFor="amount">Choose an amount</label>
             <div className="amount-options">{["101", "501", "1001"].map((item) => <button type="button" className={amount === item ? "selected" : ""} onClick={() => setAmount(item)} key={item}>₹{item}</button>)}</div>
             <div className="custom-amount"><span>₹</span><input id="amount" value={amount} onChange={(e) => setAmount(e.target.value.replace(/\D/g, ""))} inputMode="numeric" aria-label="Donation amount" /></div>
-            <button className="button full" type="submit">Continue to contribute <Arrow /></button>
-            {sent && <p className="form-message">Thank you. Connect your preferred payment provider here to complete your contribution.</p>}
-            <small>Secure contribution processing will be added before launch.</small>
+            <div className="donor-fields"><label htmlFor="donor-name">Your name</label><input className="donor-input" id="donor-name" value={donorName} onChange={(e) => setDonorName(e.target.value)} autoComplete="name" required /><label htmlFor="donor-phone">Mobile number</label><input className="donor-input" id="donor-phone" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))} inputMode="numeric" autoComplete="tel" required /></div>
+            <button className="button full" type="submit" disabled={isStartingPayment}>{isStartingPayment ? "Opening secure checkout…" : <>Continue to contribute <Arrow /></>}</button>
+            {paymentMessage && <p className="form-message">{paymentMessage}</p>}
+            <small>Payments are securely processed by Cashfree.</small>
           </form>
         </div>
       </section>
