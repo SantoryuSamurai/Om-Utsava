@@ -160,12 +160,12 @@ export default function Home() {
             <div className="donor-fields"><label htmlFor="donor-name">Your name</label><input className="donor-input" id="donor-name" value={donorName} onChange={(e) => setDonorName(e.target.value)} autoComplete="name" required /><label htmlFor="donor-phone">Mobile number</label><input className="donor-input" id="donor-phone" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))} inputMode="numeric" autoComplete="tel" required /></div>
             <button className="button full" type="submit" disabled={isStartingPayment}>{isStartingPayment ? "Opening secure checkout…" : <>Continue to contribute <Arrow /></>}</button>
             {paymentMessage && <p className="form-message">{paymentMessage}</p>}
-            <small>Payments are securely processed by Cashfree.</small>
+            <small>Payments are securely processed by Cashfree. By contributing, you agree to our <a href="/terms">Terms</a> and <a href="/refunds">Refunds Policy</a>.</small>
           </form>
         </div>
       </section>
 
-      <footer><div className="shell footer-content"><a className="brand brand-logo footer-logo" href="#home" aria-label="Om Utsava home"><img src={asset("/om-utsava-mark.png")} alt="Om Utsava emblem" /><span className="brand-name">UTSAVA</span></a><p className="footer-copyright">© 2026 Om Utsava</p><a className="footer-instagram instagram-link" href="https://www.instagram.com/om_utsava/" target="_blank" rel="noreferrer" aria-label="Follow Om Utsava on Instagram"><InstagramIcon /><span>@om_utsava</span><Arrow /></a></div></footer>
+      <footer><div className="shell footer-content"><a className="brand brand-logo footer-logo" href="#home" aria-label="Om Utsava home"><img src={asset("/om-utsava-mark.png")} alt="Om Utsava emblem" /><span className="brand-name">UTSAVA</span></a><p className="footer-copyright">© 2026 Om Utsava · <a href="/policies">Policies</a></p><a className="footer-instagram instagram-link" href="https://www.instagram.com/om_utsava/" target="_blank" rel="noreferrer" aria-label="Follow Om Utsava on Instagram"><InstagramIcon /><span>@om_utsava</span><Arrow /></a></div></footer>
     </main>
   );
 }
