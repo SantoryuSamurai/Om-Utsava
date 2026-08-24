@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const impact = [
-  ["Idol & rituals", "Pran Pratishtha, pooja items, flowers, and offerings"],
+  ["Vigraha & rituals", "Pran Pratishtha, pooja items, flowers, and offerings"],
   ["Decoration", "Stage, lights, rangoli, and a welcoming festive space"],
   ["Prasadam", "Laddoo and prasad for devotees, neighbours, and visitors"],
 ];
