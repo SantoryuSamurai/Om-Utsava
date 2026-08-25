@@ -25,6 +25,10 @@ function InstagramIcon() {
   return <svg className="instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle className="instagram-dot" cx="17.4" cy="6.6" r=".8" /></svg>;
 }
 
+function PinIcon() {
+  return <svg className="pin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg>;
+}
+
 const asset = (path) => `${process.env.NEXT_PUBLIC_BASE_PATH || ""}${path}`;
 
 export default function Home() {
@@ -118,7 +122,7 @@ export default function Home() {
             </div>
             <div className="event-line">
               <div><span className="label">When</span><strong>14–19 September 2026</strong></div>
-              <div><span className="label">Where</span><strong>Shanthi Nagar, Bangarpet</strong></div>
+              <div><span className="label">Where</span><a className="location-link" href="https://maps.app.goo.gl/x4yUf3xWs76A1HzE7?g_st=ic" target="_blank" rel="noreferrer" aria-label="Get directions to Om Utsava in Google Maps"><PinIcon /><strong>Shanthi Nagar, Bangarpet</strong></a></div>
             </div>
           </div>
           <div className="hero-art hero-art-ganesha" aria-label="Illustration of Lord Ganesha">
