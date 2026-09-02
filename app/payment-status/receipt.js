@@ -88,18 +88,6 @@ export async function downloadReceipt(receipt) {
   drawRupee(pdf, 35, headingY + 38, 26);
   pdf.text(formatAmount(receipt.amount), 57, headingY + 38);
 
-  pdf.setFillColor(232, 241, 231);
-  pdf.roundedRect(240, headingY + 18, 145, 25, 12.5, 12.5, "F");
-  const badgeY = headingY + 18;
-  pdf.setDrawColor(57, 115, 74);
-  pdf.setLineWidth(1.4);
-  pdf.line(260, badgeY + 12, 263, badgeY + 15);
-  pdf.line(263, badgeY + 15, 269, badgeY + 7);
-  pdf.setTextColor(57, 115, 74);
-  pdf.setFont("helvetica", "bold");
-  pdf.setFontSize(8);
-  pdf.text("PAYMENT SUCCESSFUL", 281, badgeY + 16);
-
   const dividerY = headingY + 65;
   pdf.setDrawColor(...LINE);
   pdf.setLineDashPattern([3, 3], 0);
@@ -110,11 +98,12 @@ export async function downloadReceipt(receipt) {
     ["Order ID", receipt.orderId],
     ["Transaction ID", receipt.transactionId],
     ["Payment mode", receipt.paymentMode],
+    ["Payment status", receipt.paymentStatus],
     ["Paid on", formatPaidOn(receipt.paidOn)],
     ["Contributor", receipt.contributor],
   ];
   rows.forEach(([label, value], index) => {
-    const rowY = dividerY + 28 + index * 23;
+    const rowY = dividerY + 28 + index * 21;
     pdf.setTextColor(...MUTED);
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(8.5);
@@ -125,7 +114,7 @@ export async function downloadReceipt(receipt) {
     pdf.text(String(value), 165, rowY, { maxWidth: 210 });
   });
 
-  const purposeDividerY = dividerY + 139;
+  const purposeDividerY = dividerY + 151;
   pdf.setDrawColor(...LINE);
   pdf.setLineDashPattern([3, 3], 0);
   pdf.line(35, purposeDividerY, right, purposeDividerY);
@@ -138,7 +127,7 @@ export async function downloadReceipt(receipt) {
   pdf.setFont("helvetica", "bold");
   pdf.text("Om Utsava 2026 - Ganesh Chaturthi celebration", 35, purposeDividerY + 38);
 
-  const panelY = 389;
+  const panelY = 402;
   pdf.setFillColor(...WARM);
   pdf.roundedRect(35, panelY, 350, 86, 6, 6, "F");
   const ornamentY = panelY + 21;
