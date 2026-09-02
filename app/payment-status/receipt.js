@@ -27,17 +27,22 @@ function formatPaidOn(value) {
   return `${part("day")} ${part("month")} ${part("year")}, ${part("hour")}:${part("minute")} ${part("dayPeriod").toUpperCase()}`;
 }
 
-function drawRupee(pdf, x, baseline, size) {
+function drawAmount(pdf, x, baseline, amount) {
+  const size = 29;
   const scale = 3;
   const canvas = document.createElement("canvas");
-  canvas.width = Math.ceil(size * scale);
-  canvas.height = Math.ceil(size * scale);
+  const text = `${String.fromCharCode(0x20B9)}${formatAmount(amount)}`;
   const context = canvas.getContext("2d");
-  context.fillStyle = "#253b37";
-  context.font = `bold ${size * scale}px Arial`;
-  context.textBaseline = "alphabetic";
-  context.fillText(String.fromCharCode(0x20B9), 0, size * scale * 0.8);
-  pdf.addImage(canvas.toDataURL("image/png"), "PNG", x, baseline - size * 0.8, size * 0.7, size);
+  context.font = `bold ${size * scale}px "Times New Roman", Georgia, serif`;
+  const textWidth = Math.ceil(context.measureText(text).width);
+  canvas.width = textWidth + 6 * scale;
+  canvas.height = Math.ceil(size * scale * 1.25);
+  const drawingContext = canvas.getContext("2d");
+  drawingContext.font = `bold ${size * scale}px "Times New Roman", Georgia, serif`;
+  drawingContext.textBaseline = "alphabetic";
+  drawingContext.fillStyle = "#253b37";
+  drawingContext.fillText(text, 0, size * scale);
+  pdf.addImage(canvas.toDataURL("image/png"), "PNG", x, baseline - size, canvas.width / scale, size * 1.25);
 }
 
 async function logoData() {
@@ -82,11 +87,7 @@ export async function downloadReceipt(receipt) {
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(8);
   pdf.text("CONTRIBUTION RECEIPT", 35, headingY);
-  pdf.setTextColor(...INK);
-  pdf.setFont("times", "bold");
-  pdf.setFontSize(29);
-  drawRupee(pdf, 35, headingY + 38, 30);
-  pdf.text(formatAmount(receipt.amount), 56, headingY + 38);
+  drawAmount(pdf, 35, headingY + 38, receipt.amount);
 
   const dividerY = headingY + 65;
   pdf.setDrawColor(...LINE);
