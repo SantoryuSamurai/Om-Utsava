@@ -68,7 +68,7 @@ export default function PaymentStatus() {
           <h1>Payment not <em>completed.</em></h1>
           <p>{state.message || "No contribution was received. You may try again."}</p>
         </>}
-        <a className="button payment-return" href="/">Return to Om Utsava</a>
+        <a className="payment-return" href="/">{"\u2190"} Return to Om Utsava</a>
       </section>
     </main>
   );

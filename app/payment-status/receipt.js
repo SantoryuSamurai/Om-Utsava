@@ -37,7 +37,7 @@ function drawRupee(pdf, x, baseline, size) {
   context.font = `bold ${size * scale}px Arial`;
   context.textBaseline = "alphabetic";
   context.fillText(String.fromCharCode(0x20B9), 0, size * scale * 0.8);
-  pdf.addImage(canvas.toDataURL("image/png"), "PNG", x, baseline - size * 0.8, size * 0.72, size * 0.8);
+  pdf.addImage(canvas.toDataURL("image/png"), "PNG", x, baseline - size * 0.8, size * 0.7, size);
 }
 
 async function logoData() {
@@ -85,8 +85,8 @@ export async function downloadReceipt(receipt) {
   pdf.setTextColor(...INK);
   pdf.setFont("times", "bold");
   pdf.setFontSize(29);
-  drawRupee(pdf, 35, headingY + 38, 26);
-  pdf.text(formatAmount(receipt.amount), 57, headingY + 38);
+  drawRupee(pdf, 35, headingY + 38, 30);
+  pdf.text(formatAmount(receipt.amount), 56, headingY + 38);
 
   const dividerY = headingY + 65;
   pdf.setDrawColor(...LINE);
