@@ -14,7 +14,7 @@ function formatAmount(amount) {
 }
 
 function formatPaidOn(value) {
-  return new Intl.DateTimeFormat("en-IN", {
+  const parts = new Intl.DateTimeFormat("en-IN", {
     day: "2-digit",
     month: "short",
     year: "numeric",
@@ -22,19 +22,22 @@ function formatPaidOn(value) {
     minute: "2-digit",
     hour12: true,
     timeZone: "Asia/Kolkata",
-  }).format(new Date(value)).replace(",", "");
+  }).formatToParts(new Date(value));
+  const part = (type) => parts.find((item) => item.type === type)?.value || "";
+  return `${part("day")} ${part("month")} ${part("year")}, ${part("hour")}:${part("minute")} ${part("dayPeriod").toUpperCase()}`;
 }
 
 function drawRupee(pdf, x, baseline, size) {
-  const top = baseline - size * 0.72;
-  const middle = baseline - size * 0.47;
-  const thickness = Math.max(1.1, size * 0.075);
-  pdf.setDrawColor(...INK);
-  pdf.setLineWidth(thickness);
-  pdf.line(x, top, x + size * 0.66, top);
-  pdf.line(x, middle, x + size * 0.66, middle);
-  pdf.line(x + size * 0.08, top, x + size * 0.56, middle);
-  pdf.line(x + size * 0.44, middle, x + size * 0.11, baseline);
+  const scale = 3;
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.ceil(size * scale);
+  canvas.height = Math.ceil(size * scale);
+  const context = canvas.getContext("2d");
+  context.fillStyle = "#253b37";
+  context.font = `bold ${size * scale}px Arial`;
+  context.textBaseline = "alphabetic";
+  context.fillText(String.fromCharCode(0x20B9), 0, size * scale * 0.8);
+  pdf.addImage(canvas.toDataURL("image/png"), "PNG", x, baseline - size * 0.8, size * 0.72, size * 0.8);
 }
 
 async function logoData() {
@@ -87,14 +90,15 @@ export async function downloadReceipt(receipt) {
 
   pdf.setFillColor(232, 241, 231);
   pdf.roundedRect(240, headingY + 18, 145, 25, 12.5, 12.5, "F");
+  const badgeY = headingY + 18;
   pdf.setDrawColor(57, 115, 74);
   pdf.setLineWidth(1.4);
-  pdf.line(260, headingY + 28, 263, headingY + 31);
-  pdf.line(263, headingY + 31, 269, headingY + 24);
+  pdf.line(260, badgeY + 12, 263, badgeY + 15);
+  pdf.line(263, badgeY + 15, 269, badgeY + 7);
   pdf.setTextColor(57, 115, 74);
   pdf.setFont("helvetica", "bold");
   pdf.setFontSize(8);
-  pdf.text("PAYMENT SUCCESSFUL", 281, headingY + 34);
+  pdf.text("PAYMENT SUCCESSFUL", 281, badgeY + 16);
 
   const dividerY = headingY + 65;
   pdf.setDrawColor(...LINE);
@@ -137,7 +141,7 @@ export async function downloadReceipt(receipt) {
   const panelY = 389;
   pdf.setFillColor(...WARM);
   pdf.roundedRect(35, panelY, 350, 86, 6, 6, "F");
-  const ornamentY = panelY + 65;
+  const ornamentY = panelY + 21;
   pdf.setDrawColor(...GOLD);
   pdf.setLineWidth(0.7);
   pdf.line(122, ornamentY, 188, ornamentY);
@@ -149,11 +153,11 @@ export async function downloadReceipt(receipt) {
   pdf.setTextColor(...MAROON);
   pdf.setFont("times", "italic");
   pdf.setFontSize(17);
-  pdf.text("Ganapati Bappa Morya", pageWidth / 2, panelY + 40, { align: "center" });
+  pdf.text("Ganapati Bappa Morya", pageWidth / 2, panelY + 47, { align: "center" });
   pdf.setTextColor(...MUTED);
   pdf.setFont("helvetica", "normal");
   pdf.setFontSize(8);
-  pdf.text("Thank you for supporting our community celebration.", pageWidth / 2, panelY + 60, { align: "center" });
+  pdf.text("Thank you for supporting our community celebration.", pageWidth / 2, panelY + 67, { align: "center" });
 
   pdf.setTextColor(...MUTED);
   pdf.setFontSize(6.8);
