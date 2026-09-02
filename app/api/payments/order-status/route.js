@@ -58,7 +58,7 @@ export async function GET(request) {
         orderId: result.order_id,
         transactionId: String(successfulPayment.cf_payment_id),
         paymentMode: paymentMode(successfulPayment.payment_group),
-        paymentStatus: "Successful",
+        paymentStatus: "Success",
         paidOn: successfulPayment.payment_completion_time,
         contributor: String(extendedOrder.customer_details?.customer_name || result.customer_details?.customer_name || "Om Utsava contributor"),
         amount: result.order_amount,
