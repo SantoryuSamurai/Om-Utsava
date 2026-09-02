@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const MINIMUM_AMOUNT = 1;
+const MINIMUM_AMOUNT = 50;
 const MAXIMUM_AMOUNT = 500000;
 
 function cashfreeBaseUrl() {
