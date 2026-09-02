@@ -10,7 +10,7 @@ const impact = [
 
 const programme = [
   ["14 Sep", "Monday", "Gauri Ganesha Prana Pratishthapana", "At 12:30 PM, followed by Maha Mangalarathi and prasada distribution."],
-  ["15 Sep", "Tuesday", "Annamma Agamana · 5:00 PM", "Tamate drum procession at 5:00 PM, followed by Annasantarpane (community meal) for all devotees."],
+  ["15 Sep", "Tuesday", "Annamma Devi Agamana · 5:00 PM", "Tamate drum procession at 5:00 PM, followed by Annasantarpane (community meal) for all devotees."],
   ["16 Sep", "Wednesday", "Mahaganapati Homa", "108 modakas will be offered, followed by pooja and prasada distribution."],
   ["17 Sep", "Thursday", "Rangoli Competition", "Various cultural programmes."],
   ["18 Sep", "Friday", "Deepaaradhane", "Deepa ceremony, followed by Maha Mangalarathi and prasada distribution."],
@@ -32,7 +32,7 @@ function PinIcon() {
 const asset = (path) => `${process.env.NEXT_PUBLIC_BASE_PATH || ""}${path}`;
 
 export default function Home() {
-  const [amount, setAmount] = useState("501");
+  const [amount, setAmount] = useState("");
   const [donorName, setDonorName] = useState("");
   const [phone, setPhone] = useState("");
   const [paymentMessage, setPaymentMessage] = useState("");
@@ -157,8 +157,8 @@ export default function Home() {
           <div><p className="eyebrow">Offer your contribution</p><h2>Be part of<br /><em>Om Utsava 2026.</em></h2><p>Every contribution supports the arrangements for the Ganesh Chaturthi celebration. We receive your offering with gratitude.</p></div>
           <form className="donate-card" onSubmit={pledge}>
             <label htmlFor="amount">Choose an amount</label>
-            <div className="amount-options">{["101", "501", "1001"].map((item) => <button type="button" className={amount === item ? "selected" : ""} onClick={() => setAmount(item)} key={item}>₹{item}</button>)}</div>
-            <div className="custom-amount"><span>₹</span><input id="amount" value={amount} onChange={(e) => setAmount(e.target.value.replace(/\D/g, ""))} inputMode="numeric" aria-label="Donation amount" /></div>
+            <div className="amount-options">{["101", "501", "1001", "10001"].map((item) => <button type="button" className={amount === item ? "selected" : ""} onClick={() => setAmount(item)} key={item}>₹{item}</button>)}</div>
+            <div className="custom-amount"><span>₹</span><input id="amount" value={amount} onChange={(e) => setAmount(e.target.value.replace(/\D/g, ""))} inputMode="numeric" aria-label="Donation amount" placeholder="Enter amount" /></div>
             <div className="donor-fields"><label htmlFor="donor-name">Your name</label><input className="donor-input" id="donor-name" value={donorName} onChange={(e) => setDonorName(e.target.value)} autoComplete="name" required /><label htmlFor="donor-phone">Mobile number</label><input className="donor-input" id="donor-phone" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))} inputMode="numeric" autoComplete="tel" required /></div>
             <button className="button full" type="submit" disabled={isStartingPayment}>{isStartingPayment ? "Opening secure checkout…" : <>Continue to contribute <Arrow /></>}</button>
             {paymentMessage && <p className="form-message">{paymentMessage}</p>}
